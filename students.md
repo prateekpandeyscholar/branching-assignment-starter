@@ -1,2 +1,2 @@
 # Git Branching Assignment
-- Prateek Pandey - node.js
+- Prateek Pandey - node.hs
