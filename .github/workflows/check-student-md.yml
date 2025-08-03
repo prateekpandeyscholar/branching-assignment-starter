@@ -1,9 +1,6 @@
 name: Autograde students.md format
 
 on:
-  push:
-    paths:
-      - 'students.md'
   pull_request:
     paths:
       - 'students.md'
