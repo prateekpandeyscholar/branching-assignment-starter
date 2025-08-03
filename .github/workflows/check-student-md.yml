@@ -16,13 +16,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Ensure not committing to main branch
+        run: |
+          echo "🔍 Checking current branch: ${{ github.ref }}"
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "❌ Do not commit directly to the main branch. Create a new branch locally and push."
+            exit 1
+          else
+            echo "✅ Commit is from a feature branch: OK"
+          fi
+
       - name: Check students.md formatting
         run: |
           echo "🔍 Checking students.md formatting..."
           invalid_lines=0
 
           while IFS= read -r line; do
-            # if the line does NOT match '- Name - Project'
             echo "$line" | grep -Eq '^- [A-Za-z]+( [A-Za-z]+)* - [A-Za-z0-9]+' || {
               echo "❌ Invalid line: $line"
               invalid_lines=$((invalid_lines+1))
