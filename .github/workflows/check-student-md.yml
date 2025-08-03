@@ -1,0 +1,37 @@
+name: Autograde students.md format
+
+on: [push, pull_request]
+
+jobs:
+  check-students-md:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check students.md exists
+        run: |
+          if [ ! -f students.md ]; then
+            echo "❌ students.md file not found"
+            exit 1
+          fi
+
+      - name: Check students.md format
+        run: |
+          echo "🔍 Checking students.md formatting..."
+          invalid_lines=0
+
+          while IFS= read -r line; do
+            if [[ ! "$line" =~ ^- [A-Za-z]+( [A-Za-z]+)* - [A-Za-z0-9]+ ]]; then
+              echo "❌ Invalid line: $line"
+              invalid_lines=$((invalid_lines+1))
+            fi
+          done < students.md
+
+          if [ "$invalid_lines" -gt 0 ]; then
+            echo "❌ Found $invalid_lines incorrectly formatted line(s)."
+            exit 1
+          else
+            echo "✅ All lines formatted correctly!"
+          fi
