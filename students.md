@@ -1,2 +1,2 @@
 # Git Branching Assignment
-- Prateek Pandey - vue.js
+- Prateek Pandey - node.js
